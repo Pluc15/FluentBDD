@@ -20,9 +20,9 @@ namespace FluentBDD
             return new Scenario(name);
         }
 
-        private ScenarioContext _scenarioContext;
-        private IContainer _container;
-        private IStepFormatter _stepFormatter;
+        private readonly ScenarioContext _scenarioContext;
+        private readonly IContainer _container;
+        private readonly IStepFormatter _stepFormatter;
 
         private Scenario(string name)
         {
