@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace FluentBDD.Samples.ATMSample
+namespace FluentBDD.Samples.AtmSample
 {
-    public class ATMSession
+    public class AtmSession
     {
-        private int _balance = 0;
+        private int _balance;
 
         public void Deposite(int amount)
         {

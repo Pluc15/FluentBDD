@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 
@@ -8,11 +8,11 @@ namespace FluentBDD
 {
     public class Scenario
     {
-        private static readonly ContainerBuilder ContainerBuilder = new ContainerBuilder();
-
+        private static readonly List<Type> Types = new List<Type>();
+        
         public static void RegisterType<T>()
         {
-            ContainerBuilder.RegisterType<T>();
+            Types.Add(typeof(T));
         }
 
         public static Scenario Create([CallerMemberName]string name = null)
@@ -20,21 +20,22 @@ namespace FluentBDD
             return new Scenario(name);
         }
 
-        private readonly ScenarioContext _scenarioContext;
         private readonly IContainer _container;
         private readonly IStepFormatter _stepFormatter;
 
         private Scenario(string name)
         {
-            _stepFormatter = new StepFormatter();
-            _scenarioContext = new ScenarioContext
+            WriteToTestOutput($"Scenario: {name}");
+            
+            var containerBuilder = new ContainerBuilder();
+            foreach (var type in Types)
+                containerBuilder.RegisterType(type);
+            containerBuilder.RegisterInstance(new ScenarioContext
             {
                 Name = name
-            };
-            ContainerBuilder.RegisterInstance(_scenarioContext);
-            _container = ContainerBuilder.Build();
-
-            WriteToTestOutput($"Scenario: {name}");
+            });
+            _container = containerBuilder.Build();
+            _stepFormatter = new StepFormatter();
         }
 
         public Scenario Step<TStep>(Expression<Action<TStep>> exp)
@@ -52,7 +53,7 @@ namespace FluentBDD
             return this;
         }
 
-        private void WriteToTestOutput(string message)
+        private static void WriteToTestOutput(string message)
         {
             Console.WriteLine($"-> {message}");
         }
