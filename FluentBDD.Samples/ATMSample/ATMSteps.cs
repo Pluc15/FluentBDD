@@ -1,5 +1,4 @@
-﻿using System;
-using FluentAssertions;
+﻿using FluentAssertions;
 
 namespace FluentBDD.Samples.ATMSample
 {
@@ -12,26 +11,26 @@ namespace FluentBDD.Samples.ATMSample
             _scenarioContext = scenarioContext;
         }
         
-        public void GivenAUserHasXDollars(int amount)
+        public void Given_a_user_has_x_dollars(int amount)
         {
             var atm = new ATMSession();
             _scenarioContext.Add(atm);
             atm.Deposite(100);
         }
 
-        public void WhenTheUserWithdrawsX(int X)
+        public void When_the_user_withdraws_x(int x)
         {
-            _scenarioContext.Get<ATMSession>().Withdraw(X);
+            _scenarioContext.Get<ATMSession>().Withdraw(x);
         }
 
-        public void WhenTheUserDepositsX(int X)
+        public void When_the_user_deposits_x(int x)
         {
-            _scenarioContext.Get<ATMSession>().Deposite(X);
+            _scenarioContext.Get<ATMSession>().Deposite(x);
         }
 
-        public void ThenTheUserHasX(int X)
+        public void Then_the_user_has_x(int x)
         {
-            _scenarioContext.Get<ATMSession>().GetBalance().Should().Be(X);
+            _scenarioContext.Get<ATMSession>().GetBalance().Should().Be(x);
         }
     }
 }
