@@ -1,5 +1,4 @@
 using Xunit;
-using Autofac;
 
 namespace FluentBDD.Samples.ATMSample
 {
@@ -7,7 +6,7 @@ namespace FluentBDD.Samples.ATMSample
     {
         public ATMTests()
         {
-            Scenario.ContainerBuilder.RegisterType<ATMSteps>();
+            Scenario.RegisterType<ATMSteps>();
         }
 
         [Fact]

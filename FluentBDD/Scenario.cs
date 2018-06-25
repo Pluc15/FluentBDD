@@ -8,7 +8,12 @@ namespace FluentBDD
 {
     public class Scenario
     {
-        public static ContainerBuilder ContainerBuilder { get; private set; } = new ContainerBuilder();
+        private static readonly ContainerBuilder ContainerBuilder = new ContainerBuilder();
+
+        public static void RegisterType<T>()
+        {
+            ContainerBuilder.RegisterType<T>();
+        }
 
         public static Scenario Create([CallerMemberName]string name = null)
         {
